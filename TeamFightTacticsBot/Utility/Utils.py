@@ -587,25 +587,30 @@ def get_champions_owned():
 
     return champions
 
+# This crops the names from the shop in order to be checked
+def crop_shop_champion_names(screen):
+    return [screen.crop((484, 1043, 630, 1065)),
+            screen.crop((685, 1043, 831, 1065)),
+            screen.crop((886, 1043, 1032, 1065)),
+            screen.crop((1087, 1043, 1233, 1065)),
+            screen.crop((1288, 1043, 1434, 1065))]
 
-# This crops the slots from the shop in order to be checked
-def crop_shop(screen):
-    return [screen.crop((479, 927, 674, 1073)),
-            screen.crop((680, 927, 875, 1073)),
-            screen.crop((881, 927, 1076, 1073)),
-            screen.crop((1083, 927, 1278, 1073)),
-            screen.crop((1284, 927, 1479, 1073))]
+def slugged_name_to_champion(slugged_name):
+    # Same whitelist as tesseract's one
+    whitelist = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+    for champion in Champions:
+        if slugged_name.lower() == ''.join([c for c in champion.name.lower() if c in whitelist]):
+            return champion.value
+    return None
 
-
-# This takes the screen and crops the shop and returns a list of champions in the shop
 def shop_to_champion(screen):
     champion_slots = []
-    shop_slots = crop_shop(screen)
-    for slot in shop_slots:
-        value = image_to_champion(slot)
-        champion_slots.append(value)
+    shop_champion_names = crop_shop_champion_names(screen)
+    for slot in shop_champion_names:
+        slugged_name = string_from_image(slot)
+        champion = slugged_name_to_champion(slugged_name)
+        champion_slots.append(champion)
     return champion_slots
-
 
 # This takes a picture of a champion and returns what champion enum from the shop images it matches
 def image_to_champion(champion_image):
