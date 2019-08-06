@@ -19,6 +19,7 @@ import TeamFightTacticsBot.Utility.Constants as Constants
 import TeamFightTacticsBot.Utility.GameConstants as GameConstants
 import TeamFightTacticsBot.Utility.ConfigFileLoader as ConfigFileLoader
 
+get_text.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 # puts one point into level
 def level_up():

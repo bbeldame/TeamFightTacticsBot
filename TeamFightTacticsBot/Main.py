@@ -9,7 +9,7 @@ import copy
 
 
 def start():
-    if __name__ is not '__main__':
+    if __name__ != '__main__':
         return
 
     debugging = True
